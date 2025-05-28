@@ -2,7 +2,7 @@
 <html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Kopika Muralidharan - Portfolio</title>
 
   <!-- Fonts -->
@@ -18,6 +18,13 @@
     body {
       font-family: 'Space Mono', monospace;
     }
+    html, body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
   </style>
 </head>
 
@@ -241,10 +248,10 @@
   
 
 
-  <hr class="border-t border-gray-700 my-8" />
+  <hr class="border-t border-gray-700 my-8" id="contact"/>
 
   <!-- Contact -->
-  <section id="contact" class="relative py-14 bg-black text-white overflow-hidden scroll-mt-20" data-aos="fade-up" data-aos-duration="1000">
+  <section class="relative py-14 bg-black text-white overflow-hidden scroll-mt-20" data-aos="fade-up" data-aos-duration="1000">
     <img src="./contact.png" alt="Left" class="hidden md:block w-32 absolute left-0 top-1/2 -translate-y-1/2 z-0 transform scale-150" />
     <img src="./contact.png" alt="Right" class="hidden md:block w-32 absolute right-0 top-1/2 -translate-y-1/2 z-0 transform scale-150" />
     <div class="relative z-10 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto text-center">
@@ -297,63 +304,60 @@
   <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Initialize AOS
-    AOS.init({
-      once: true,
-      duration: 1000,
-    });
-
-    // Contact form handler
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-      contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const message = e.target.message.value;
-
-        try {
-          const response = await fetch('/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, message }),
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize AOS
+      AOS.init({
+        once: true,
+        duration: 1000,
+      });
+  
+      // Contact form handler
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = e.target.email.value;
+          const message = e.target.message.value;
+  
+          try {
+            const response = await fetch('/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, message }),
+            });
+  
+            const result = await response.json();
+            document.getElementById('responseMessage').textContent = result.message;
+            e.target.reset();
+          } catch (error) {
+            document.getElementById('responseMessage').textContent = 'Something went wrong.';
+            console.error('Form submission error:', error);
+          }
+        });
+      }
+  
+      // Navbar toggle logic
+      const navToggle = document.getElementById('nav-toggle');
+      const navMenu = document.getElementById('nav-menu');
+  
+      if (navToggle && navMenu) {
+        // Toggle menu on hamburger click
+        navToggle.addEventListener('click', () => {
+          navMenu.classList.toggle('hidden');
+          navMenu.classList.toggle('animate-slide-down');
+        });
+  
+        // Close menu when a nav link is clicked (small screen)
+        navMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.add('hidden');
+            navMenu.classList.remove('animate-slide-down');
           });
-
-          const result = await response.json();
-          document.getElementById('responseMessage').textContent = result.message;
-          e.target.reset();
-        } catch (error) {
-          document.getElementById('responseMessage').textContent = 'Something went wrong.';
-          console.error('Form submission error:', error);
-        }
-      });
-    }
-
-    // Get nav elements here, after DOM is ready
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-
-    // Only add event listeners if navToggle and navMenu exist
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('hidden');
-        navMenu.classList.toggle('animate-slide-down');
-      });
-
-      document.addEventListener('click', (event) => {
-        const isClickInsideMenu = navMenu.contains(event.target);
-        const isClickOnToggle = navToggle.contains(event.target);
-
-        if (!isClickInsideMenu && !isClickOnToggle) {
-          navMenu.classList.add('hidden');
-          navMenu.classList.remove('animate-slide-down');
-        }
-      });
-    }
-  });
-</script>
-
+        });
+      }
+    });
+  </script>  
 
   <!-- Tailwind component styling -->
   <style>
