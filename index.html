@@ -23,7 +23,7 @@
 
 <body class="bg-black text-white px-6 sm:px-16 py-8" id="home">
   <!-- Fixed Navbar -->
-  <nav class="fixed top-0 left-0 w-full z-50 bg-black text-white px-8 py-4 flex justify-between items-center shadow-md">
+  <nav class="fixed top-0 left-0 w-full z-50 bg-black text-white px-4 sm:px-8 py-4 flex justify-between items-center shadow-md">
     <div class="font-bold text-purple-400">Portfolio</div>
   
     <!-- Desktop nav links -->
@@ -44,10 +44,10 @@
         <line x1="3" y1="18" x2="21" y2="18" />
       </svg>
     </button>
-  </nav>
+  </nav>  
   
   <!-- Vertical nav menu for small screens -->
-  <div id="nav-menu" class="sm:hidden hidden w-full fixed top-16 left-0 bg-black text-white z-40 shadow-md">
+  <div id="nav-menu" class="sm:hidden hidden w-full fixed top-14 left-0 bg-black text-white z-40 shadow-md">
     <div class="flex flex-col divide-y divide-gray-700 text-sm">
       <a href="#home" class="py-4 px-6 hover:bg-gray-800">Home</a>
       <a href="#about" class="py-4 px-6 hover:bg-gray-800">About me</a>
@@ -296,52 +296,63 @@
   <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-  <script>
-    // Wait until the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initialize AOS
-      AOS.init({
-        once: true,
-        duration: 1000,
-      });
-  
-      // Contact form handler
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const email = e.target.email.value;
-          const message = e.target.message.value;
-  
-          try {
-            const response = await fetch('/contact', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, message }),
-            });
-  
-            const result = await response.json();
-            document.getElementById('responseMessage').textContent = result.message;
-            e.target.reset();
-          } catch (error) {
-            document.getElementById('responseMessage').textContent = 'Something went wrong.';
-            console.error('Form submission error:', error);
-          }
-        });
-      }
-  
-      // Navbar toggle handler
-      const navToggle = document.getElementById('nav-toggle');
-      const navMenu = document.getElementById('nav-menu');
-  
-      if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-          navMenu.classList.toggle('hidden');
-          navMenu.classList.toggle('animate-slide-down');
-        });
-      }
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize AOS
+    AOS.init({
+      once: true,
+      duration: 1000,
     });
-  </script>
+
+    // Contact form handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const message = e.target.message.value;
+
+        try {
+          const response = await fetch('/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, message }),
+          });
+
+          const result = await response.json();
+          document.getElementById('responseMessage').textContent = result.message;
+          e.target.reset();
+        } catch (error) {
+          document.getElementById('responseMessage').textContent = 'Something went wrong.';
+          console.error('Form submission error:', error);
+        }
+      });
+    }
+
+    // Get nav elements here, after DOM is ready
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
+    // Only add event listeners if navToggle and navMenu exist
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('hidden');
+        navMenu.classList.toggle('animate-slide-down');
+      });
+
+      document.addEventListener('click', (event) => {
+        const isClickInsideMenu = navMenu.contains(event.target);
+        const isClickOnToggle = navToggle.contains(event.target);
+
+        if (!isClickInsideMenu && !isClickOnToggle) {
+          navMenu.classList.add('hidden');
+          navMenu.classList.remove('animate-slide-down');
+        }
+      });
+    }
+  });
+</script>
+
 
   <!-- Tailwind component styling -->
   <style>
