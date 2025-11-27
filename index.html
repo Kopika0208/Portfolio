@@ -31,7 +31,13 @@
   </style>
 </head>
 
-<body class="bg-[#080707] bg-[url('./texture.svg')] bg-repeat w-full text-white px-6 sm:px-16 py-8" id="home">
+<body class="bg-[#080707]
+            bg-[url('./texture-mobile.svg')] 
+            sm:bg-[url('./texture-tablet.svg')] 
+            md:bg-[url('./texture.svg')] 
+            bg-repeat
+            w-full text-white px-6 sm:px-16 py-8" id="home">
+
   <div id="cursor-dot"></div>
   <!-- Fixed Navbar -->
   <nav class="fixed top-0 left-0 w-full max-w-screen box-border z-50 
@@ -373,10 +379,10 @@ Feel free to explore my work, collaborate, or just say hello!</p>
   </section>
 
   <!-- Chatbot Floating Button -->
-<div id="chat-button" class="fixed z-50 group 
-     bottom-24 right-4              /* mobile position */
-     md:bottom-6 md:right-3         /* desktop position */
-     ">
+<div id="chat-button" 
+     class="hidden md:flex fixed z-50 group 
+            bottom-24 right-4 
+            md:bottom-6 md:right-3">
   <button
     onclick="window.open('https://kopika-career-chatbot.hf.space', '_blank')"
     class="bg-violet-900 md:bg-[#2B124C] sm:hover:bg-violet-900 text-white font-bold py-3 px-5 rounded-full shadow-lg transition duration-300 ease-in-out"
@@ -392,6 +398,7 @@ Feel free to explore my work, collaborate, or just say hello!</p>
     Chat with me!
   </span>
 </div>
+
 
 
 <!-- Fixed Vertical Social Icons -->
@@ -542,6 +549,7 @@ Feel free to explore my work, collaborate, or just say hello!</p>
     body {
   overflow-x: hidden;
 }
+
     .skill-card {
       background: #18181b;
       padding: 1.25rem;
@@ -577,11 +585,13 @@ Feel free to explore my work, collaborate, or just say hello!</p>
       color: white;
     }
     @font-face {
-    font-family: 'Cendranis';
-    font-style: normal;
+    font-family: "Cendranis";
+    src: url("./CendranisPersonalUse-Regular.woff") format("woff");
     font-weight: normal;
-    src: local('Cendranis Personal Use Regular'), url('CendranisPersonalUse-Regular.woff') format('woff');
-    }
+    font-style: normal;
+    font-display: swap;
+  }
+
     #cursor-dot {
     width: 15px;
     height: 15px;
